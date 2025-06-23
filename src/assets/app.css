@@ -3,11 +3,14 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  background-color: rgb(240, 244, 247);
+  background: url('https://th.bing.com/th/id/OIP.4m7cYXebpZrPmAQLgSeNXwHaFj?w=296&h=180&c=7&r=0&o=7&dpr=2&pid=1.7&rm=3') rgb(179, 202, 219);
+  background-size: cover;
+  backdrop-filter: blur(2px);
 }
 
 h1 {
   text-align: center;
+  color: rgb(29, 71, 100);
 }
 
 #app {
@@ -19,8 +22,8 @@ h1 {
   border-radius: 5px;
   justify-self: center;
   min-width: 1100px;
-  background-color: rgba(0, 0, 0, 0.7);
-
+  background-color: rgba(0, 0, 0, 0.3);
+  position: relative;
 
   & {
     @media screen and (max-width:1400px) {
@@ -61,6 +64,11 @@ h1 {
       }
     }
 
+    & h2 {
+      text-align: center;
+      text-transform: capitalize;
+      color: rgb(18, 97, 153);
+    }
 
     & ul {
 
@@ -86,12 +94,22 @@ h1 {
         & p {
           margin: 5px;
         }
+      }
+    }
 
-        &:hover {
-          background-color: rgb(171, 169, 169);
-          cursor: pointer;
-          color: white;
-        }
+    & button {
+      width: 50px;
+      padding: 5px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1.5em;
+      background-color: rgb(91, 120, 146);
+      color: rgb(230, 219, 219);
+
+      &:hover {
+        background-color: rgb(175, 190, 203);
+        cursor: pointer;
+        color: rgb(91, 120, 146);
       }
     }
   }
@@ -103,9 +121,12 @@ h1 {
     padding: 10px;
     background-color: rgb(233, 241, 247);
     border-radius: 5px;
+    box-shadow: 2px 2px 8px grey;
 
     & h2 {
       text-align: center;
+      text-transform: capitalize;
+      color: rgb(18, 97, 153);
     }
   }
 
@@ -216,25 +237,21 @@ h1 {
 
 /* CALENDAR EVENT CREATION */
 
-.modal {
+#modal {
 
   border-radius: 10px;
-  grid-column: 1/3;
-  grid-row: 1/3;
-  z-index: 100;
   animation: move-eventElement-to-center 1.5s forwards;
   padding: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
   left: 0;
   top: 0;
-  height: 100vh;
-  width: calc(100vw - 20px);
-  opacity: 0;
-  background-color: rgba(195, 193, 193, 0.3);
-  backdrop-filter: contrast(50%) brightness(50%);
+  height: 100%;
+  width: 100%;
+  background-color: rgba(29, 71, 100);
   text-align: center;
 
   & #close-event-on-creation {
@@ -263,6 +280,9 @@ h1 {
     }
   }
 
+  & h3 {
+    color: white;
+  }
 
   & #event-on-creation-date {
     font-weight: 600;
@@ -279,195 +299,35 @@ h1 {
     display: flex;
     position: relative;
     width: 100%;
-    margin: -50px 0 0 60px;
     min-width: 300px;
     max-width: 600px;
     padding: 20px;
     flex-direction: column;
     height: fit-content;
     justify-content: start;
-    /* margin: 10px; */
     padding: 10px;
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0.9);
 
-    & #event-creation-categories {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      height: fit-content;
-      margin: 10px auto;
-      width: 100%;
 
-      & div {
-        height: fit-content;
-        display: flex;
-        justify-content: start;
-        flex-wrap: wrap;
-        width: 48%;
-
-        & {
-          @media screen and (max-width:1000px) {
-            width: 100%;
-          }
-        }
-
-        & label {
-          color: rgb(26, 76, 118);
-          margin: 5px;
-        }
-
-        & #event-creation-friends-input,
-        #event-creation-place {
-          border-radius: 5px;
-          outline: none;
-          border: 0.5px solid rgb(26, 76, 118);
-          padding: 5px;
-          width: calc(100% - 20px);
-          color: rgb(26, 76, 118);
-          min-width: 150px;
-          min-height: 50%;
-          margin: 5px;
-          position: relative;
-
-          & ul#event-creation-friends-autocomplete {
-            position: absolute;
-            height: fit-content;
-            max-height: fit-content;
-            min-height: fit-content;
-            padding: 0;
-            list-style-type: none;
-            top: calc(100% - 15px);
-            left: -1px;
-            /* bottom: 0 */
-            background-color: white;
-
-            & li {
-              padding: 5px 10px;
-              display: flex;
-              align-items: center;
-              position: relative;
-              min-width: 70px;
-
-              & img {
-                position: absolute;
-                right: 0;
-                width: 20px;
-                height: 20px;
-                object-fit: cover;
-                border-radius: 50%;
-                margin-right: 5px;
-              }
-
-              &:hover {
-                cursor: pointer;
-                background-color: rgb(201, 199, 199);
-                ;
-              }
-            }
-          }
-        }
-
-        & input {
-          background-color: rgba(0, 0, 0, 0) !important;
-          outline: none;
-          border: none;
-        }
-
-        & p {
-          /* width: 80%; */
-          height: fit-content;
-          background-color: white;
-          border-radius: 30px;
-          border: 0.5px solid rgb(26, 76, 118);
-          display: flex;
-          height: 25px;
-          justify-content: space-around;
-          align-items: center;
-          padding: 3px 10px;
-          margin: 5px 10px;
-
-          &:hover {
-            border-color: lightblue;
-            cursor: pointer;
-          }
-
-          & img {
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            margin-right: 10px;
-          }
-
-          & span {
-            padding: 0 5px;
-            width: 8px;
-            height: 18px;
-            line-height: 15px;
-            margin-left: 5px;
-            background-color: grey;
-            border-radius: 50%;
-            border: 1px solid rgb(142, 141, 141);
-            color: white;
-            margin: 0 0 0 8px;
-
-
-            &:hover {
-              cursor: pointer;
-            }
-          }
-        }
-      }
-
-      & input {
-        border-radius: 5px;
-        outline: none;
-        border: 0.5px solid rgb(26, 76, 118);
-        padding: 5px;
-        width: calc(100% - 20px);
-        color: rgb(26, 76, 118);
-        min-width: 150px;
-        min-height: 50%;
-        margin: 5px;
-
-        &::placeholder {
-          color: rgb(155, 180, 200);
-        }
-
-        &:focus {
-          outline: 1px solid rgb(46, 135, 198);
-        }
-      }
+    & label {
+      color: rgb(26, 76, 118);
+      margin: 5px;
     }
 
-    & #event-creation-other-events {
-      margin: 0 0 0 10px;
-      padding: 0px;
+    & input {
+      border-radius: 5px;
+      outline: none;
+      border: 0.5px solid rgb(26, 76, 118);
+      padding: 10px;
+      width: calc(100% - 20px);
+      color: rgb(26, 76, 118);
+      max-width: 350px;
+      margin: 5px auto;
+      position: relative;
 
-      & div {
-        min-height: 200px;
-        width: 100%;
-        margin: 5px auto;
-        border: 1px solid rgb(84, 144, 194);
-        border-radius: 4px;
-        border: 0.5px solid rgb(26, 76, 118);
-        padding: 5px;
-        color: rgb(26, 76, 118);
-        display: flex;
-        align-items: start;
-
-        & p {
-          height: fit-content;
-          background-color: rgba(91, 166, 10, 0.5);
-          color: rgb(18, 97, 153);
-          font-weight: 600;
-          line-height: 0.8;
-
-          & span {
-            background-color: rgb(84, 144, 194);
-            color: white;
-          }
-        }
+      &:focus {
+        outline: 1px solid rgb(46, 135, 198);
       }
     }
 
@@ -478,6 +338,8 @@ h1 {
       color: white;
       margin: 20px auto;
       min-width: 100px;
+      padding: 10px;
+      border-radius: 5px;
       font-weight: 600;
 
       &:hover {
