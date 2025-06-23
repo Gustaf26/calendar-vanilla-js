@@ -27,13 +27,15 @@ const showModal = () => {
   </div>`
 
   setTimeout(() => {
-    document.getElementById('create-event-form').addEventListener('submit', (e) => {
+    document.getElementById('create-event-form').addEventListener('submit', async (e) => {
       e.preventDefault()
       let eventTitle = e.target[0].value
       let eventPlace = e.target[1].value
       let eventDate = e.target[2].value
 
-      createEvent(eventTitle, eventPlace, eventDate)
+      await createEvent(db, eventTitle, eventPlace, eventDate)
+      closeModal()
+      showMonthCalendar(getEvents())
     })
   }, 2000)
 }
@@ -53,6 +55,9 @@ document.getElementById('app').innerHTML = `<aside>
 const db = await loadDb()
 
 const updateUIEvents = (events) => {
+
+  document.getElementById('events-list').innerHTML = ""
+
   events.forEach(event => {
     let eventMonth = new Date(event.date).getMonth()
     if (eventMonth === thisMonth) document.getElementById('events-list').innerHTML += `<li><p><i>${event.title}</i><p>${event.place}</li>`
