@@ -1,21 +1,14 @@
 
 
-const weekDays = 35
+
 const today = new Date().getDate()
 const thisMonth = new Date().getMonth()
+const monthDays = thisMonth % 2 === 0 ? 30 : 31
 
 const showWeekCell = (props) => {
 
-    const { day, dayNr, events, dayDate, thisDay, actualMonth, eventElement, setEventElement } = props
+    const { day, events, dayDate } = props
 
-
-    let mondays = [0, 7, 14, 21, 28]
-    let tuesdays = mondays.map(day => day + 1)
-    let wednesdays = tuesdays.map(day => day + 1)
-    let thursdays = wednesdays.map(day => day + 1)
-    let fridays = thursdays.map(day => day + 1)
-    let saturdays = fridays.map(day => day + 1)
-    let sundays = saturdays.map(day => day + 1)
 
     const activateDay = (e) => {
 
@@ -28,23 +21,24 @@ const showWeekCell = (props) => {
         e.target.classList.add('active')
     }
 
-    document.getElementById('month-calendar-container').innerHTML += `<span class="month-calendar-day">${day}</span>`
+    let dayEvent = events.filter(event => event.date === dayDate)
+    if (dayEvent.length > 0) document.getElementById('month-calendar-container').innerHTML += `<span class="month-calendar-day">${day}<p>${dayEvent[0].title}</p></span>`
+    else { document.getElementById('month-calendar-container').innerHTML += `<span class="month-calendar-day">${day}</span>` }
 }
 
 
 const showMonthCalendar = (events) => {
 
 
-    let allWeekdays = []
-    let dayNumber = 0
+    const thisMonth = new Date().getMonth()
 
-    for (let j = 0; j < weekDays; j++) {
+
+    for (let j = 1; j < monthDays; j++) {
 
         showWeekCell({
             events: events.length > 0 ? events : [],
             thisDay: today,
-            dayNr: (dayNumber >= 1) && (dayNumber <= preliminaryMonthDays) ? dayNumber : '',
-            dayDate: 1,
+            dayDate: `2025-${thisMonth}-${j}`,
             day: j
         })
     }
