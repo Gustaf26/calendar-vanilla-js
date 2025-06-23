@@ -22,23 +22,26 @@ const showWeekCell = (props) => {
     }
 
     let dayEvent = events.filter(event => event.date === dayDate)
-    if (dayEvent.length > 0) document.getElementById('month-calendar-container').innerHTML += `<span class="month-calendar-day">${day}<p>${dayEvent[0].title}</p></span>`
+
+    if (dayEvent?.length > 0) document.getElementById('month-calendar-container').innerHTML += `<span class="month-calendar-day">${day}<p>${dayEvent[0].title}</p></span>`
     else { document.getElementById('month-calendar-container').innerHTML += `<span class="month-calendar-day">${day}</span>` }
 }
 
 
 const showMonthCalendar = (events) => {
 
-
-    const thisMonth = new Date().getMonth()
-
+    document.getElementById('month-calendar-container').innerHTML = ""
 
     for (let j = 1; j < monthDays; j++) {
+
+        let monthDate = thisMonth < 10 ? '0' + `${(thisMonth + 1)}` : thisMonth + 1
+
+        let dayDate = j < 10 ? '0' + j : j
 
         showWeekCell({
             events: events.length > 0 ? events : [],
             thisDay: today,
-            dayDate: `2025-${thisMonth}-${j}`,
+            dayDate: `2025-${monthDate}-${dayDate}`,
             day: j
         })
     }

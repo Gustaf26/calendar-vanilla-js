@@ -12,6 +12,6 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "sql.js": "^1.13.0"
+    "@sqlitecloud/drivers": "^1.0.507"
   }
 }

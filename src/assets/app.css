@@ -53,6 +53,7 @@ h1 {
     padding: 10px;
     font-size: 0.9em;
     box-shadow: 2px 2px 8px grey;
+    height: 70vh;
 
 
     & {
@@ -71,12 +72,11 @@ h1 {
     }
 
     & ul {
-
-
       list-style-type: none;
       padding-left: 0;
       height: 100%;
       margin: 0;
+      overflow-y: scroll;
 
       & li {
         padding: 10px;

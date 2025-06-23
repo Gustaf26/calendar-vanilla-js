@@ -35,7 +35,7 @@ const showModal = () => {
 
       await createEvent(db, eventTitle, eventPlace, eventDate)
       closeModal()
-      showMonthCalendar(getEvents())
+      showMonthCalendar(await getEvents())
     })
   }, 2000)
 }
@@ -66,24 +66,19 @@ const updateUIEvents = (events) => {
 
 // showContacts()
 
-const getEvents = () => {
+const getEvents = async () => {
   // Hämta alla rader
-  const result = db.exec("SELECT * FROM events");
-
-  // Formatera resultatet mer läsbart
-  const events = result[0].values.map(row =>
-    Object.fromEntries(result[0].columns.map((col, i) => [col, row[i]]))
-  );
+  const events = await db.sql("SELECT * FROM events");
 
   const monthEvents = events.filter(event => new Date(event.date).getMonth() === thisMonth)
 
   updateUIEvents(monthEvents)
 
-  return events
+  return monthEvents
 }
 
 
-showMonthCalendar(getEvents())
+showMonthCalendar(await getEvents())
 
 window.showModal = showModal
 window.closeModal = closeModal
