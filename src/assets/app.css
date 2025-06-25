@@ -258,8 +258,8 @@ h1 {
 
 /* CALENDAR EVENT CREATION */
 
-#modal {
 
+#modal {
   border-radius: 10px;
   animation: move-eventElement-to-center 1.5s forwards;
   padding: 10px;
@@ -274,6 +274,10 @@ h1 {
   width: 100%;
   background-color: rgba(29, 71, 100);
   text-align: center;
+
+  &.invisible {
+    display: none;
+  }
 
   & #close-event-on-creation {
     position: absolute;
