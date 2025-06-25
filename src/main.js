@@ -1,6 +1,6 @@
 import { loadDb } from './db/db'
 import { showMonthCalendar } from './calendarLogik'
-import { createEvent, deleteEvent, updateEvent } from './db/dbActions'
+import { createEvent, deleteEvent, updateEvent, fetchEvents } from './db/dbActions'
 
 
 // Some global variables of use in the functions
@@ -18,6 +18,24 @@ const closeModal = async () => {
   document.getElementById('modal').innerHTML = ""
   document.getElementById('modal').classList.add('invisible')
 
+}
+
+// Main functions to interact with db from dbActions module
+const dbAction = async (action, eventInfo) => {
+
+  let { db, eventTitle, eventPlace, eventDate, id } = eventInfo
+
+  switch (action) {
+    case ('fetch'):
+      let events = await fetchEvents(db)
+      return events
+    case ('create'):
+      await createEvent(db, eventTitle, eventPlace, eventDate)
+    case ('update'):
+      await updateEvent(db, eventTitle, eventPlace, eventDate, id)
+    case ('delete'):
+      await deleteEvent(db, id)
+  }
 }
 
 // Functkon to show modal with create / update functionality
@@ -62,14 +80,18 @@ const showModal = async (id = 'none') => {
       let eventPlace = e.target[1].value
       let eventDate = e.target[2].value
 
-      if (id === 'none') await createEvent(db, eventTitle, eventPlace, eventDate)
-      else await updateEvent(db, eventTitle, eventPlace, eventDate, id)
+      // Update db according to action
+      if (id === 'none') dbAction('create', { db, eventTitle, eventPlace, eventDate, id: 'none' })
+      else dbAction('update', { db, eventTitle, eventPlace, eventDate, id })
+
+      // Update the UI after every change in db
       closeModal()
       showMonthCalendar(await getEvents())
     })
   }, 2000)
 }
 
+// Rendering code that just adds a main component to the UI
 document.getElementById('app').innerHTML = `<aside>
                                   <h2>This Month´s Events</h2>
                                   <ul id="events-list"></ul>
@@ -86,7 +108,7 @@ document.getElementById('app').innerHTML = `<aside>
 // Function to delete from db
 const deleteFromDb = async (id) => {
 
-  let deleteMsg = await deleteEvent(db, id)
+  dbAction('delete', { db, eventTitle: '', eventPlac: '', eventDate: '', id })
 
   showMonthCalendar(await getEvents())
 
@@ -109,6 +131,7 @@ const updateUIEvents = (events) => {
                                                                              </li>`
   })
 
+  // Eevent listeners for the update / delete icons
   setTimeout(() => {
     let allDeleteIcons = document.querySelectorAll('.icon-delete')
 
@@ -123,7 +146,6 @@ const updateUIEvents = (events) => {
 
   setTimeout(() => {
 
-    console.log('UI updated')
     let allUpdateIcons = document.querySelectorAll('.icon-update')
 
     allUpdateIcons.forEach(icon => {
@@ -143,7 +165,7 @@ const updateUIEvents = (events) => {
 // Main function to fetch events from db
 const getEvents = async () => {
 
-  const events = await db.sql("SELECT * FROM events");
+  const events = await dbAction('fetch', { db, eventTitle: '', eventPlace: '', eventDate: '', id: '' })
 
   const monthEvents = events.filter(event => new Date(event.date).getMonth() === thisMonth)
 
@@ -153,6 +175,7 @@ const getEvents = async () => {
 }
 
 
+// A first call to render db info dynamically in UI
 showMonthCalendar(await getEvents())
 
 // Theses two declarations attach the functions to the window object so they are to be reached by the html file
