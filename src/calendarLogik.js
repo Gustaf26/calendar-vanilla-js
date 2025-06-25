@@ -23,7 +23,9 @@ const showWeekCell = (props) => {
 
     let dayEvent = events.filter(event => event.date === dayDate)
 
-    if (dayEvent?.length > 0) document.getElementById('month-calendar-container').innerHTML += `<span class="month-calendar-day">${day}<p>${dayEvent[0].title}</p></span>`
+    if (dayEvent?.length > 0) document.getElementById('month-calendar-container').innerHTML += `<span class="month-calendar-day">${day}
+                                                                                    <p>${dayEvent[0].title}</p>
+                                                                                    </span>`
     else { document.getElementById('month-calendar-container').innerHTML += `<span class="month-calendar-day">${day}</span>` }
 }
 

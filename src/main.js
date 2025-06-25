@@ -1,6 +1,7 @@
 import { loadDb } from './db/db'
 import { showMonthCalendar } from './calendarLogik'
 import { createEvent } from './createEvent'
+import { deleteEvent } from './deleteEvent'
 
 const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 const thisMonth = new Date().getMonth()
@@ -54,14 +55,44 @@ document.getElementById('app').innerHTML = `<aside>
 
 const db = await loadDb()
 
+const deleteFromDb = async (id) => {
+
+  let deleteMsg = await deleteEvent(db, id)
+
+  console.log(deleteMsg)
+
+  showMonthCalendar(await getEvents())
+
+}
+
+
 const updateUIEvents = (events) => {
 
   document.getElementById('events-list').innerHTML = ""
 
   events.forEach(event => {
     let eventMonth = new Date(event.date).getMonth()
-    if (eventMonth === thisMonth) document.getElementById('events-list').innerHTML += `<li><p><i>${event.title}</i><p>${event.place}</li>`
+    if (eventMonth === thisMonth) document.getElementById('events-list').innerHTML += `<li>
+                                                                            <p><em>${event.title}</em></p>
+                                                                            ${event.place}
+                                                                            <p id="dayEvent">
+                                                                                <span class="icon-delete" id="${event.id}-delete"><i class="fa-solid fa-trash"></i></span>
+                                                                                <span class="icon-update" id="${event.id}-update"><i class="fa-solid fa-pen"></i></span>
+                                                                             </p>
+                                                                             </li>`
   })
+
+  setTimeout(() => {
+    let allDeleteIcons = document.querySelectorAll('.icon-delete')
+
+    allDeleteIcons.forEach(icon => {
+      icon.addEventListener('click', (e) => {
+        let id = e.target.parentElement.id
+        let eventToDeleteId = id.slice(0, id.indexOf('-'))
+        deleteFromDb(eventToDeleteId)
+      })
+    })
+  }, 1000);
 }
 
 // showContacts()

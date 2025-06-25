@@ -91,6 +91,27 @@ h1 {
         min-width: 200px;
         border-radius: 3px;
 
+        & i {
+          border: 1px solid grey;
+          padding: 8px;
+          margin: 8px 4px;
+          border-radius: 4px;
+
+          &:first-child {
+            color: rgb(149, 15, 15);
+            border-color: rgb(149, 15, 15);
+          }
+
+          &:nth-child(even) {
+            color: blue;
+            border-color: blue;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
         & p {
           margin: 5px;
         }
