@@ -10,16 +10,16 @@ const showWeekCell = (props) => {
     const { day, events, dayDate } = props
 
 
-    const activateDay = (e) => {
+    // const activateDay = (e) => {
 
-        let allDayEls = [...document.querySelectorAll('.month-calendar-day')]
+    //     let allDayEls = [...document.querySelectorAll('.month-calendar-day')]
 
-        allDayEls.forEach((dayEl) => {
+    //     allDayEls.forEach((dayEl) => {
 
-            if ([...dayEl.classList].includes('active')) { dayEl.classList.remove('active') }
-        })
-        e.target.classList.add('active')
-    }
+    //         if ([...dayEl.classList].includes('active')) { dayEl.classList.remove('active') }
+    //     })
+    //     e.target.classList.add('active')
+    // }
 
     let dayEvent = events.filter(event => event.date === dayDate)
 

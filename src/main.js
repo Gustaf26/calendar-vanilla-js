@@ -1,12 +1,12 @@
 import { loadDb } from './db/db'
 import { showMonthCalendar } from './calendarLogik'
-import { createEvent } from './createEvent'
-import { deleteEvent } from './deleteEvent'
-import { updateEvent } from './updateEvent'
+import { createEvent, deleteEvent, updateEvent } from './db/dbActions'
 
+
+// Some global variables of use in the functions
 const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-const thisMonth = new Date().getMonth()
-const today = `2025-${thisMonth.length > 1 ? thisMonth : '0' + thisMonth}-${new Date().getDate()}`
+let thisMonth = new Date().getMonth()
+const today = `2025-${thisMonth}-${new Date().getDate()}`
 
 // Function to get the db object from SQLite cloud
 const db = await loadDb()
@@ -99,7 +99,6 @@ const updateUIEvents = (events) => {
 
   events.forEach(event => {
     let eventMonth = new Date(event.date).getMonth()
-
     if (eventMonth === thisMonth) document.getElementById('events-list').innerHTML += `<li>
                                                                             <p><em>${event.title}</em></p>
                                                                             ${event.place}
