@@ -1,5 +1,5 @@
 import { Database } from '@sqlitecloud/drivers'
-import type { Event } from '../types/GeneralTypes'
+import type { Event } from '../../types/GeneralTypes'
 
 export async function fetchEvents(db: Database) {
 
@@ -19,6 +19,8 @@ export async function createEvent(db: Database, title: string, place: string, da
     try {
         const result = await db.sql(`INSERT INTO events (date, place, title) VALUES ('${date}', '${place}', '${title}')`)
 
+
+        console.log(result)
         if (result[0]?.lastID) return 'Event succesfully created'
         else throw Error('Something went wrong')
 

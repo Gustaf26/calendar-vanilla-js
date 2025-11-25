@@ -3,7 +3,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  background: url('https://th.bing.com/th/id/OIP.4m7cYXebpZrPmAQLgSeNXwHaFj?w=296&h=180&c=7&r=0&o=7&dpr=2&pid=1.7&rm=3') rgb(179, 202, 219);
+  /* background: url('https://th.bing.com/th/id/OIP.4m7cYXebpZrPmAQLgSeNXwHaFj?w=296&h=180&c=7&r=0&o=7&dpr=2&pid=1.7&rm=3') rgb(179, 202, 219); */
   background-size: cover;
   backdrop-filter: blur(2px);
 }
@@ -41,7 +41,7 @@ h1 {
 
 
   & aside {
-    width: 30%;
+    width: 100%;
     background-color: white;
     border-radius: 5px;
     height: fit-content;
@@ -53,7 +53,7 @@ h1 {
     padding: 10px;
     font-size: 0.9em;
     box-shadow: 2px 2px 8px grey;
-    height: 70vh;
+    /* height: 70vh; */
 
 
     & {

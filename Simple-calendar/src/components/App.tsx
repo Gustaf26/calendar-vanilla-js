@@ -1,29 +1,32 @@
 import { useState, useEffect } from 'react'
 
-import { loadDb } from '../db/db'
+import { loadDb } from '../db/db.ts'
 // import { showMonthCalendar } from './calendarLogik'
-import { createEvent, deleteEvent, updateEvent, fetchEvents } from '../db/dbActions'
+import { createEvent, deleteEvent, updateEvent, fetchEvents } from '../db/hooks/dbActions.ts'
 
-import { Modal } from './Modal'
+import { Modal } from './Modal.tsx'
 
-import type { Event } from '../types/GeneralTypes'
+import type { Event } from '../types/GeneralTypes.ts'
 
 import { Database } from '@sqlitecloud/drivers'
-
-// Some global variables of use in the functions
-const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-
-
-// Function to get the db object from SQLite cloud
-const db: Database = await loadDb()
-
-const thisMonth: number = new Date().getMonth()
-
 export default function App() {
 
     const [openModal, setOpenModal] = useState(false)
     const [events, setEvents] = useState([] as Event[])
 
+    // Some global variables of use in the functions
+    // const months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+
+    // Function to get the db object from SQLite cloud
+    const [db, setDb] = useState({} as Database)
+
+    const thisMonth: number = new Date().getMonth()
+
+    useEffect(() => {
+        const getDb = async (): Promise<Database> => { return await loadDb() }
+        getDb().then(db => setDb(db))
+
+    }, [])
 
     // Main functions to interact with db from dbActions module
     const dbAction = async (action: string, eventInfo: { db: Database, eventTitle: string, eventPlace: string, eventDate: string, id: number }) => {
@@ -59,7 +62,7 @@ export default function App() {
 
         getEvents()
 
-    }, [])
+    }, [db, thisMonth])
 
     // Close modal function
     const closeModal = async () => {
@@ -118,21 +121,16 @@ export default function App() {
             </p>
             {event.place}
             <p id="dayEvent">
-                <span className="icon-delete" id="${event.id}-delete">
+                <span className="icon-delete" id={`${event.id}-delete`}>
                     <i className="fa-solid fa-trash"></i>
                 </span>
-                <span className="icon-update" id="${event.id}-update">
+                <span className="icon-update" id={`${event.id}-update`}>
                     <i className="fa-solid fa-pen"></i>
                 </span>
             </p>
         </li>)}
         </ul>
         <button onClick={() => setOpenModal(true)}>+</button>
-        <section>
-            <h2>{months[new Date().getMonth()]}</h2>
-            <div id="month-calendar-container">
-            </div>
-        </section>
         {openModal && <Modal openModal={openModal} db={db} events={events} closeModal={closeModal} />}
     </aside>)
 }

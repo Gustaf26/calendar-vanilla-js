@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
 
 import { Database } from "@sqlitecloud/drivers"
-import type { Event } from "../types/GeneralTypes"
+import type { Event } from "../types/GeneralTypes.ts"
 
-import { createEvent } from "../db/dbActions"
+import { createEvent } from "../db/hooks/dbActions.ts"
 
 type ModalProps = { db: Database, openModal: boolean, events: Event[], closeModal: () => void }
 
