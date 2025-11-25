@@ -1,5 +1,5 @@
 import { Database } from '@sqlitecloud/drivers'
-import type { Event } from '../GeneralTypes'
+import type { Event } from '../types/GeneralTypes'
 
 export async function fetchEvents(db: Database) {
 

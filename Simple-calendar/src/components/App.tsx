@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 
-import { loadDb } from './db/db'
+import { loadDb } from '../db/db'
 // import { showMonthCalendar } from './calendarLogik'
-import { createEvent, deleteEvent, updateEvent, fetchEvents } from './db/dbActions'
+import { createEvent, deleteEvent, updateEvent, fetchEvents } from '../db/dbActions'
 
 import { Modal } from './Modal'
 
-import type { Event } from './GeneralTypes'
+import type { Event } from '../types/GeneralTypes'
 
 import { Database } from '@sqlitecloud/drivers'
 

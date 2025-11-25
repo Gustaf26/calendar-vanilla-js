@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react"
 
 import { Database } from "@sqlitecloud/drivers"
-import type { Event } from "./GeneralTypes"
+import type { Event } from "../types/GeneralTypes"
+
+import { createEvent } from "../db/dbActions"
 
 type ModalProps = { db: Database, openModal: boolean, events: Event[], closeModal: () => void }
 
@@ -37,41 +39,29 @@ export function Modal(props: ModalProps): React.ReactElement {
     }, [])
 
 
-    // const form = document.getElementById('create-event-form') as HTMLFormElement
+    const saveEvent = async (e: React.FormEvent<HTMLFormElement>) => {
 
-    // setTimeout(() => {
-    //     form.addEventListener('submit', async (e: SubmitEvent) => {
-    //         e.preventDefault()
+        e.preventDefault()
 
-    //         const target = e.target as EventTarget
+        // Update db according to action
+        const result = await createEvent(props.db, eventData.title, eventData.place, eventData.date)
+        console.log(result)
 
-
-    //         const eventTitle = target[0]?.value
-    //         const eventPlace = target[1]?.value
-    //         const eventDate = target[2]?.value
-
-    //         // Update db according to action
-    //         if (id === 0) dbAction('create', { db, eventTitle, eventPlace, eventDate, id: 0 })
-    //         else dbAction('update', { db, eventTitle, eventPlace, eventDate, id })
-
-    //         // Update the UI after every change in db
-    //         closeModal()
-    //         showMonthCalendar(await getEvents())
-    //     })
-    // }, 2000
-
+        // Update the UI after every change in db
+        props.closeModal()
+    }
 
     return (
         <div id="modal" {...props} >
             {props.openModal && (<><span id="close-event-on-creation" onClick={props.closeModal}>X</span>
                 <h3>Create Event</h3>
-                <form id="create-event-form">
+                <form onSubmit={saveEvent} id="create-event-form">
                     <label htmlFor="title">Title</label>
-                    <input id="title" name="title" type="text" placeholder="Enter a title" required value={eventData.title} />
+                    <input id="title" onChange={(e) => { setEventData({ ...eventData, title: e.target.value }) }} name="title" type="text" placeholder="Enter a title" required value={eventData.title} />
                     <label htmlFor="title">Place</label>
-                    <input id="place" name="place" type="text" placeholder="Enter a place" value={eventData.place} required />
+                    <input id="place" onChange={(e) => { setEventData({ ...eventData, place: e.target.value }) }} name="place" type="text" placeholder="Enter a place" value={eventData.place} required />
                     <label htmlFor="date">Date</label>
-                    <input id="date" name="date" type="date" required value={eventData.date} />
+                    <input id="date" onChange={(e) => { setEventData({ ...eventData, date: e.target.value }) }} name="date" type="date" required value={eventData.date} />
                     <button>Submit</button>
                 </form></>)}
         </div>
